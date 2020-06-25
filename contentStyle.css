@@ -10,4 +10,33 @@
   mix-blend-mode: difference;
   user-select: none;
   pointer-events: none;
+  animation: stupidAnimation 0.5s linear infinite;
+}
+
+@keyframes stupidAnimation {
+  0%,
+  100% {
+    background-image: linear-gradient(to bottom right, #b329eecc, #22e413cc);
+  }
+  12.5% {
+    background-image: linear-gradient(to bottom, #22e413cc, #b329eecc);
+  }
+  25% {
+    background-image: linear-gradient(to bottom left, #b329eecc, #22e413cc);
+  }
+  37.5% {
+    background-image: linear-gradient(to left, #22e413cc, #b329eecc);
+  }
+  50% {
+    background-image: linear-gradient(to top left, #b329eecc, #22e413cc);
+  }
+  62.5% {
+    background-image: linear-gradient(to top, #22e413cc, #b329eecc);
+  }
+  75% {
+    background-image: linear-gradient(to top right, #b329eecc, #22e413cc);
+  }
+  87.5% {
+    background-image: linear-gradient(to right, #22e413cc, #b329eecc);
+  }
 }

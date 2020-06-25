@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })
 
-  document.querySelector('#click').addEventListener('click', function () {
+  document.querySelector('#stupid').addEventListener('click', function () {
     stupidMode = !stupidMode
     sendMessage({ event: 'stupidMode', stupidMode })
   })

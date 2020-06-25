@@ -42,8 +42,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, response) {
     p5Config.strokeColor = request.color
   }
   else if (request.event === 'changeStrokeWeight') {
-    chrome.storage.local.set({ strokeWeight: request.weight })
-    p5Config.strokeWeight = request.weight
+    chrome.storage.local.set({ strokeWeight: request.weight || 1 })
+    p5Config.strokeWeight = request.weight || 1
   }
   else if (request.event === 'capture') {
     // html2canvas(document.body).then(function (canvas) {

@@ -1,5 +1,5 @@
 body {
-  width: 500px;
+  width: 300px;
 }
 
 * {
@@ -9,4 +9,42 @@ body {
 #title {
   color: #0b8ed2;
   font-weight: bold;
+}
+
+.d-flex {
+  display: flex !important;
+}
+.flex-column {
+  flex-direction: column !important;
+}
+.flex-grow-1{
+  flex-grow: 1 !important;
+}
+.align-items-center{
+  align-items: center !important;
+}
+
+.action-button {
+  cursor: pointer !important;
+  user-select: none !important;
+  padding: 10px;
+  border: 1px dashed #292929;
+}
+.action-button > .title {
+  margin: 0 !important;
+  font-size: 18px !important;
+  text-transform: uppercase !important;
+}
+.action-button:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"] {
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 5px;
+  box-sizing: border-box;
 }
