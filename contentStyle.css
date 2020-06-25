@@ -1,0 +1,13 @@
+.stupid-body::after {
+  z-index: 999999999;
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom right, #b329eecc, #22e413cc);
+  mix-blend-mode: difference;
+  user-select: none;
+  pointer-events: none;
+}

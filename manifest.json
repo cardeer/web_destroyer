@@ -1,0 +1,36 @@
+{
+  "name": "Web Destroyer",
+  "version": "1.0",
+  "description": "Bang Bang Boom Boom Fooooooooo Pew Pew DESTROY!!!",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "scripts/backgroundScript.js"
+    ],
+    "persistent": false
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "browser_action": {
+    "default_popup": "popup/index.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "contentStyle.css"
+      ],
+      "js": [
+        "scripts/p5/p5.min.js",
+        "scripts/html2canvas.min.js",
+        "scripts/contentScript.js"
+      ],
+      "run_at": "document_end"
+    }
+  ]
+}
