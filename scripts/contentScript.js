@@ -29,10 +29,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, response) {
     }
 
     if (request.stupidMode) {
-      stupidAudio = new Audio(chrome.runtime.getURL('assets/audios/derp.mp3'))
+      stupidAudio = new Audio(chrome.runtime.getURL('assets/audios/stupid.mp3'))
       stupidAudio.loop = true
       stupidAudio.volume = .5
-      stupidAudio.currentTime = 7
       stupidAudio.play()
     }
   }
