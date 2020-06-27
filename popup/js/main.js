@@ -47,6 +47,10 @@ document.addEventListener('DOMContentLoaded', function () {
     sendMessage({ event: 'changeMode', mode: 'image' })
   })
 
+  document.querySelector('#bomb-mode').addEventListener('click', function (e) {
+    sendMessage({ event: 'changeMode', mode: 'bomb' })
+  })
+
   document.querySelector('#fire-mode').addEventListener('click', function (e) {
     sendMessage({ event: 'changeMode', mode: 'fire' })
   })

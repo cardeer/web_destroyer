@@ -29,6 +29,7 @@
       "js": [
         "scripts/p5/p5.min.js",
         "scripts/html2canvas.min.js",
+        "scripts/sketch.js",
         "scripts/contentScript.js"
       ],
       "run_at": "document_end"

@@ -13,6 +13,10 @@
   animation: stupidAnimation 0.5s linear infinite;
 }
 
+.disable-scroll {
+  overflow: hidden !important;
+}
+
 @keyframes stupidAnimation {
   0%,
   100% {
