@@ -232,6 +232,6 @@ const sketch = function (p) {
   }
 
   p.windowResized = function(){
-    resizeCanvas(p.windowWidth, p.windowHeight)
+    p.resizeCanvas(p.windowWidth, p.windowHeight)
   }
 }
