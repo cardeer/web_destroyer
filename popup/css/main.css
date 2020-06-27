@@ -1,14 +1,23 @@
+@font-face {
+  font-family: bit;
+  src: url("../fonts/2p.ttf");
+}
+
 body {
   width: 300px;
 }
 
 * {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: bit;
 }
 
 #title {
   color: #0b8ed2;
   font-weight: bold;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
 }
 
 .d-flex {
@@ -17,34 +26,63 @@ body {
 .flex-column {
   flex-direction: column !important;
 }
-.flex-grow-1{
+.flex-grow-1 {
   flex-grow: 1 !important;
 }
-.align-items-center{
+.align-items-center {
   align-items: center !important;
+}
+.flex-wrap {
+  flex-wrap: wrap !important;
 }
 
 .action-button {
   cursor: pointer !important;
   user-select: none !important;
-  padding: 10px;
-  border: 1px dashed #292929;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+  border: 1px dashed #292929 !important;
+  box-shadow: 0 0 5px inset;
+  animation: borderAnimation 0.5s ease infinite;
 }
+
+@keyframes borderAnimation {
+  0%,
+  100% {
+    box-shadow: 0 0 5px inset;
+  }
+  50% {
+    box-shadow: 0 0 10px inset;
+  }
+}
+
 .action-button > .title {
   margin: 0 !important;
-  font-size: 18px !important;
-  text-transform: uppercase !important;
+  font-size: 10px !important;
 }
 .action-button:not(:last-child) {
   margin-bottom: 5px;
 }
+.action-button .icon {
+  background-color: #303030;
+  border-radius: 100%;
+  font-size: 20px;
+  color: white;
+  padding: 10px;
+}
+.action-button .icon:not(:first-child) {
+  margin-left: 5px;
+}
 
 input[type="text"],
 input[type="number"],
-input[type="email"] {
+input[type="email"],
+input[type="url"],
+select {
   outline: none;
   box-shadow: none;
   border-radius: 0;
   padding: 5px;
   box-sizing: border-box;
+  font-size: 10px !important;
 }

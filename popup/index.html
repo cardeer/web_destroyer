@@ -2,30 +2,41 @@
 
 <head>
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/la/css/line-awesome.min.css">
   <script src="js/main.js"></script>
 </head>
 
 <body>
   <div class="d-flex flex-column">
     <div class="action-button" id="stupid">
-      <p class="title">stupid mode</p>
+      <p class="title">Stupid mode</p>
     </div>
 
-    <div class="action-button" id="enable">
-      <p class="title">enable</p>
-    </div>
+    <!-- <div class="action-button" id="capture">
+      <p class="title">Capture</p>
+    </div> -->
 
     <div class="action-button" id="remove">
-      <p class="title">remove</p>
+      <p class="title">Remove</p>
     </div>
 
+    <h5>Tools</h5>
+    <div class="action-button d-flex flex-wrap">
+      <span class="icon" id="line-mode"><i class="la la-pen"></i></span>
+      <span class="icon" id="image-mode"><i class="la la-image"></i></span>
+      <span class="icon" id="fire-mode"><i class="la la-fire"></i></span>
+    </div>
+
+    <h5>Line settings</h5>
     <div class="action-button d-flex align-items-center">
-      <input type="color" id="color" placeholder="Color">
-      <input class="flex-grow-1" type="number" id="weight" placeholder="Weight" style="margin-left: 5px;">
+      <input type="color" id="stroke-color" placeholder="Color">
+      <input class="flex-grow-1" type="number" id="stroke-weight" placeholder="Weight" style="margin-left: 5px;">
     </div>
 
-    <div class="action-button" id="capture">
-      <p class="title">capture</p>
+    <h5>Image settings</h5>
+    <div class="action-button d-flex flex-column flex-wrap">
+      <input type="url" id="image-url" placeholder="Image URL">
+      <input type="number" id="image-size" placeholder="Image size" value="100" style="margin-top: 5px;">
     </div>
   </div>
 </body>
