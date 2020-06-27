@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
     sendMessage({ event: 'changeMode', mode: 'fire' })
   })
 
-  document.querySelector('#bomb-mode').addEventListener('click', function () {
-    sendMessage({ event: 'changeMode', mode: 'bomb' })
+  document.querySelector('#milktea-mode').addEventListener('click', function () {
+    sendMessage({ event: 'changeMode', mode: 'milktea' })
   })
   // end change mode
 

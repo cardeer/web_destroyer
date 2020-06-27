@@ -37,7 +37,7 @@ const sketch = function (p) {
   };
 
   ParticleSystem.prototype.addParticle = function (position) {
-    if (this.delay < 2) this.delay++;
+    if (this.delay < 5) this.delay++;
     else {
       this.delay = 0;
       this.particles.push(new Particle(position));
@@ -120,19 +120,25 @@ const sketch = function (p) {
     }
   }
 
-  class BombTool {
+  class MilkTea {
     constructor(x, y) {
       this.x = x
       this.y = y
+      this.life = 0
+      this.velocity = p.random(0.5, 1.5)
     }
 
     create() {
-
+      p.strokeWeight(100)
+      p.stroke('#f0dfc5')
+      p.line(this.x, this.y, this.x, this.y + (this.life * this.velocity))
+      if (this.y + (this.life * this.velocity) < p.windowHeight) this.life++
     }
   }
 
   p.objects = []
   p.burnImage = p.loadImage(chrome.runtime.getURL('assets/images/burn.png'))
+  p.lastTime = new Date()
 
   p.setup = function () {
     const canvas = p.createCanvas(p.windowWidth, p.windowHeight)
@@ -151,27 +157,34 @@ const sketch = function (p) {
     p.clear()
     p.cursor(cursors[p5Config.mode] || '')
 
-    p5Config.system.addParticle(p.createVector(p.mouseX, p.mouseY));
-    p5Config.system.run();
-
     if (p.mouseIsPressed && p.mouseButton === p.LEFT) {
       if (p5Config.mode === 'line') {
         p.objects.push(new LineTool(p5Config.strokeColor, p5Config.strokeWeight, p.mouseX, p.mouseY, p.pmouseX, p.pmouseY))
       }
-      else if (p5Config.mode === 'image' && p.drawImage) {
+      else if (p5Config.mode === 'image' && p.drawImage && new Date().getTime() - p.lastTime.getTime() >= 500) {
         p.objects.push(new ImageTool(p.drawImage, p.mouseX, p.mouseY, p5Config.imageSize))
+        p.lastTime = new Date()
       }
       else if (p5Config.mode === 'fire' && p.drawImage) {
         p.objects.push(new FireTool(p.drawImage, p.mouseX, p.mouseY))
       }
-      else if (p5Config.mode === 'bomb') {
-
+      else if (p5Config.mode === 'milktea') {
+        p.objects.push(new MilkTea(p.mouseX, p.mouseY, 10))
       }
     }
 
     for (let i in p.objects) {
       p.objects[i].create()
     }
+
+    for (let i in p.objects) {
+      if (p.objects[i].remove) {
+        p.objects.splice(i, 1)
+      }
+    }
+
+    p5Config.system.addParticle(p.createVector(p.mouseX, p.mouseY));
+    p5Config.system.run();
   }
 
   p.changeImage = function (url) {
