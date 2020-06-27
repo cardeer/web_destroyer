@@ -11,12 +11,30 @@ const cursors = {
   line: chrome.runtime.getURL('assets/cursors/line.cur'),
   image: chrome.runtime.getURL('assets/cursors/image.cur'),
   fire: chrome.runtime.getURL('assets/cursors/fire.cur'),
+  milktea: chrome.runtime.getURL('assets/cursors/milktea.cur'),
+  hammer: chrome.runtime.getURL('assets/cursors/hammer.cur'),
 }
+
+var stupidAudio = null
 
 chrome.runtime.onMessage.addListener(function (request, sender, response) {
   if (request.event === 'stupidMode') {
     chrome.storage.local.set({ stupidMode: request.stupidMode })
     document.body.classList[request.stupidMode ? 'add' : 'remove']('stupid-body')
+
+    if (stupidAudio) {
+      stupidAudio.pause()
+      stupidAudio.remove()
+      stupidAudio = null
+    }
+
+    if (request.stupidMode) {
+      stupidAudio = new Audio(chrome.runtime.getURL('assets/audios/derp.mp3'))
+      stupidAudio.loop = true
+      stupidAudio.volume = .5
+      stupidAudio.currentTime = 7
+      stupidAudio.play()
+    }
   }
   else if (request.event === 'removeCanvas' && p5sketch) {
     p5sketch.remove()
@@ -62,16 +80,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, response) {
   }
 })
 
-// storage
-chrome.storage.onChanged.addListener(function (changes, areaName) {
-  if (changes.stupidMode) {
-    document.body.classList[changes.stupidMode.newValue ? 'add' : 'remove']('stupid-body')
-  }
-})
-
 chrome.storage.local.get(['stupidMode', 'strokeColor', 'strokeWeight', 'imageURL', 'imageSize'], function (result) {
   if (result.stupidMode) {
-    document.body.classList.add('stupid-body')
+    chrome.storage.local.set({ stupidMode: false })
   }
 
   if (result.strokeColor) {

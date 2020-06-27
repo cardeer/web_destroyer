@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('#milktea-mode').addEventListener('click', function () {
     sendMessage({ event: 'changeMode', mode: 'milktea' })
   })
+
+  document.querySelector('#hammer-mode').addEventListener('click', function () {
+    sendMessage({ event: 'changeMode', mode: 'hammer' })
+  })
   // end change mode
 
   // stroke settings

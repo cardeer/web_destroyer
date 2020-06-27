@@ -1,5 +1,5 @@
 .stupid-body::after {
-  z-index: 999999999;
+  z-index: 9007199254740991;
   content: "";
   position: fixed;
   top: 0;

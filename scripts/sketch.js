@@ -37,7 +37,7 @@ const sketch = function (p) {
   };
 
   ParticleSystem.prototype.addParticle = function (position) {
-    if (this.delay < 5) this.delay++;
+    if (this.delay < 2) this.delay++;
     else {
       this.delay = 0;
       this.particles.push(new Particle(position));
@@ -90,22 +90,22 @@ const sketch = function (p) {
   }
 
   class FireTool {
-    constructor(fire, x, y) {
+    constructor(x, y) {
       this.x = x
       this.y = y
       this.moved = 10
       this.size = 0
       this.color = 'rgba(0, 0, 0, .5)'
-      this.fire = fire
-      this.ratio = fire.height / fire.width
+      this.ratio = p.fireImage.height / p.fireImage.width
+      this.burnSize = p.random(100, 200)
     }
 
     create() {
       if (this.moved < 100) {
-        p.image(this.fire, this.x - 50, this.y - 70, 50, 50 * this.ratio)
+        p.image(p.fireImage, this.x - 50, this.y - 70, 50, 50 * this.ratio)
       }
       else {
-        p.image(p.burnImage, this.x - 50, this.y - 70, 100, 100)
+        p.image(p.burnImage, this.x - 50, this.y - 70, this.burnSize, this.burnSize)
       }
 
       if (this.moved < 100) {
@@ -136,9 +136,35 @@ const sketch = function (p) {
     }
   }
 
-  p.objects = []
-  p.burnImage = p.loadImage(chrome.runtime.getURL('assets/images/burn.png'))
-  p.lastTime = new Date()
+  class HammerTool {
+    constructor(x, y) {
+      this.x = x
+      this.y = y
+    }
+
+    create() {
+      p.image(p.breakImage, this.x, this.y)
+    }
+  }
+
+  let diff = function (milliseconds) {
+    const result = new Date().getTime() - p.lastTime > milliseconds
+    if (result) p.lastTime = new Date().getTime()
+    return result
+  }
+
+  p.preload = function () {
+    p.objects = []
+    p.lastTime = new Date()
+    p.soundFormats('mp3', 'wav')
+    p.fireImage = p.loadImage(chrome.runtime.getURL('assets/images/fire.png'))
+    p.burnImage = p.loadImage(chrome.runtime.getURL('assets/images/burn.png'))
+    p.breakImage = p.loadImage(chrome.runtime.getURL('assets/images/break.png'))
+
+    p.fireSound = p.loadSound(chrome.runtime.getURL('assets/audios/fire.wav'))
+    p.hammerSound = p.loadSound(chrome.runtime.getURL('assets/audios/hammer.wav'))
+    p.milkteaSound = p.loadSound(chrome.runtime.getURL('assets/audios/milktea.wav'))
+  }
 
   p.setup = function () {
     const canvas = p.createCanvas(p.windowWidth, p.windowHeight)
@@ -151,6 +177,10 @@ const sketch = function (p) {
     if (p5Config.imageURL) {
       p.changeImage()
     }
+
+    p.fireSound.setVolume(.2)
+    p.hammerSound.setVolume(.2)
+    p.milkteaSound.setVolume(.2)
   }
 
   p.draw = function () {
@@ -161,15 +191,25 @@ const sketch = function (p) {
       if (p5Config.mode === 'line') {
         p.objects.push(new LineTool(p5Config.strokeColor, p5Config.strokeWeight, p.mouseX, p.mouseY, p.pmouseX, p.pmouseY))
       }
-      else if (p5Config.mode === 'image' && p.drawImage && new Date().getTime() - p.lastTime.getTime() >= 500) {
+      else if (p5Config.mode === 'image' && p.drawImage && diff(500)) {
         p.objects.push(new ImageTool(p.drawImage, p.mouseX, p.mouseY, p5Config.imageSize))
         p.lastTime = new Date()
       }
-      else if (p5Config.mode === 'fire' && p.drawImage) {
-        p.objects.push(new FireTool(p.drawImage, p.mouseX, p.mouseY))
+      else if (p5Config.mode === 'fire') {
+        p.objects.push(new FireTool(p.mouseX, p.mouseY))
+        p.fireSound.stop()
+        p.fireSound.play()
       }
-      else if (p5Config.mode === 'milktea') {
+      else if (p5Config.mode === 'milktea' && diff(500)) {
         p.objects.push(new MilkTea(p.mouseX, p.mouseY, 10))
+        p.milkteaSound.stop()
+        p.milkteaSound.play()
+      }
+      else if (p5Config.mode === 'hammer' && diff(500)) {
+        p.objects.push(new HammerTool(p.mouseX - p.breakImage.width / 2, p.mouseY - p.breakImage.height / 2))
+        p.lastTime = new Date()
+        p.hammerSound.stop()
+        p.hammerSound.play()
       }
     }
 
@@ -189,5 +229,9 @@ const sketch = function (p) {
 
   p.changeImage = function (url) {
     p.drawImage = p.loadImage(url || p5Config.imageURL)
+  }
+
+  p.windowResized = function(){
+    resizeCanvas(p.windowWidth, p.windowHeight)
   }
 }
