@@ -1,21 +1,89 @@
 var p5sketch = null
 const p5Config = {
   strokeColor: '#000',
-  strokeWeight: 1,
+  strokeWeight: 1
 }
 
-const sketch = function (p) {
+chrome.storage.local.set({ stupidAction: 'LINE' })
+
+const sketch = function(p) {
+  // A simple Particle class
+  let Particle = function(position) {
+    this.acceleration = p.createVector(p.random(-0.05, 0.05), p.random(-0.05, 0.05));
+    this.velocity = p.createVector(p.random(-0.05, 0.05), p.random(-0.05, 0.05));
+    this.position = position.copy();
+    this.lifespan = p.random(155, 255);
+  };
+
+  Particle.prototype.run = function() {
+    this.update();
+    this.display();
+  };
+
+  // Method to update position
+  Particle.prototype.update = function() {
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.lifespan -= 2;
+  };
+
+  // Method to display
+  Particle.prototype.display = function() {
+    // p.ellipse(this.position.x, this.position.y, 50, 50);
+    // p.tint(255, this.lifespan);
+    p.image(p5Config.img, this.position.x, this.position.y, 50, 50)
+  };
+
+  // Is the particle still useful?
+  Particle.prototype.isDead = function() {
+    return this.lifespan < 0;
+  };
+
+  let ParticleSystem = function() {
+    this.particles = [];
+    this.delay = 0;
+  };
+
+  ParticleSystem.prototype.addParticle = function(position) {
+    if(this.delay < 2) this.delay++;
+    else {
+      this.delay = 0;
+      this.particles.push(new Particle(position));
+    }
+  };
+
+  ParticleSystem.prototype.run = function() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let particle = this.particles[i];
+      particle.run();
+      if (particle.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  };
+
   p.setup = function () {
     const canvas = p.createCanvas(p.windowWidth, document.body.clientHeight)
     canvas.position(0, 0)
+    p5Config.img = p.loadImage('https://w7.pngwing.com/pngs/704/52/png-transparent-know-your-meme-internet-meme-mobile-phones-meme.png');
+    p5Config.system = new ParticleSystem();
   }
 
   p.draw = function () {
-    if (p.mouseIsPressed) {
-      p.strokeWeight(p5Config.strokeWeight)
-      p.stroke(p5Config.strokeColor)
-      p.line(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY)
-    }
+    p.clear();
+    p5Config.system.addParticle(p.createVector(p.mouseX, p.mouseY));
+    p5Config.system.run();
+    /*
+    chrome.storage.local.get(['stupidAction'], function(result) {
+      switch (result.stupidAction) {
+        case 'LINE':
+          if (p.mouseIsPressed) {
+            p.image(p5Config.img, p.mouseX, p.mouseY, 50, 50)
+          }
+          break
+      }
+    });
+    */
   }
 
   p.windowResized = function () {
