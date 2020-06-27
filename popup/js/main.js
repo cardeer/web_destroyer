@@ -39,20 +39,20 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 
   // change mode
-  document.querySelector('#line-mode').addEventListener('click', function (e) {
+  document.querySelector('#line-mode').addEventListener('click', function () {
     sendMessage({ event: 'changeMode', mode: 'line' })
   })
 
-  document.querySelector('#image-mode').addEventListener('click', function (e) {
+  document.querySelector('#image-mode').addEventListener('click', function () {
     sendMessage({ event: 'changeMode', mode: 'image' })
   })
 
-  document.querySelector('#bomb-mode').addEventListener('click', function (e) {
-    sendMessage({ event: 'changeMode', mode: 'bomb' })
+  document.querySelector('#fire-mode').addEventListener('click', function () {
+    sendMessage({ event: 'changeMode', mode: 'fire' })
   })
 
-  document.querySelector('#fire-mode').addEventListener('click', function (e) {
-    sendMessage({ event: 'changeMode', mode: 'fire' })
+  document.querySelector('#bomb-mode').addEventListener('click', function () {
+    sendMessage({ event: 'changeMode', mode: 'bomb' })
   })
   // end change mode
 
